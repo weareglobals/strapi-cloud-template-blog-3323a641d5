@@ -59,6 +59,12 @@
     "applicationEmail": {
       "type": "email",
       "required": true
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": ["portuguese", "english", "spanish"],
+      "required": true,
+      "default": "portuguese"
     }
   }
 } 

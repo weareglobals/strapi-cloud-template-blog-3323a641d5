@@ -28,6 +28,12 @@
       "relation": "oneToMany",
       "target": "api::blog-post.blog-post",
       "mappedBy": "category"
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": ["portuguese", "english", "spanish"],
+      "required": true,
+      "default": "portuguese"
     }
   }
 }
