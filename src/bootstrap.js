@@ -268,7 +268,49 @@ async function main() {
   process.exit(0);
 }
 
+module.exports = async ({ strapi }) => {
+  // Encontra o role público
+  const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
+    where: { type: 'public' }
+  });
 
-module.exports = async () => {
-  await seedExampleApp();
+  if (publicRole) {
+    // Define as permissões que queremos habilitar
+    const permissions = {
+      'api::blog-post.blog-post': ['find', 'findOne'],
+      'api::category.category': ['find', 'findOne'],
+      'api::job-position.job-position': ['find', 'findOne'],
+      'api::success-case.success-case': ['find', 'findOne']
+    };
+
+    // Para cada content-type e suas ações
+    for (const [contentType, actions] of Object.entries(permissions)) {
+      for (const action of actions) {
+        // Verifica se a permissão já existe
+        const existingPermission = await strapi.query('plugin::users-permissions.permission').findOne({
+          where: {
+            action: `${contentType}.${action}`,
+            role: publicRole.id
+          }
+        });
+
+        if (!existingPermission) {
+          // Se não existe, cria a permissão
+          await strapi.query('plugin::users-permissions.permission').create({
+            data: {
+              action: `${contentType}.${action}`,
+              role: publicRole.id,
+              enabled: true
+            }
+          });
+        } else if (!existingPermission.enabled) {
+          // Se existe mas não está habilitada, atualiza
+          await strapi.query('plugin::users-permissions.permission').update({
+            where: { id: existingPermission.id },
+            data: { enabled: true }
+          });
+        }
+      }
+    }
+  }
 };

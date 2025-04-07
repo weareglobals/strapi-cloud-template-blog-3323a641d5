@@ -4,7 +4,8 @@ module.exports = ({ env }) => ({
       rest: {
         defaultLimit: 100,
         maxLimit: 250,
-      }
-    }
-  }
+      },
+      jwtSecret: env('JWT_SECRET'),
+    },
+  },
 });
