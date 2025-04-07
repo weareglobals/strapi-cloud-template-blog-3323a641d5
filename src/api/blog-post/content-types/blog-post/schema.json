@@ -1,15 +1,15 @@
 {
+  "kind": "collectionType",
   "collectionName": "blog_posts",
   "info": {
     "singularName": "blog-post",
     "pluralName": "blog-posts",
-    "displayName": "Blog Post",
-    "description": "Blog articles for the site"
+    "displayName": "Blog Posts",
+    "description": "Artigos do blog"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "title": {
       "type": "string",
@@ -21,28 +21,36 @@
       "required": true
     },
     "content": {
-      "type": "richtext"
+      "type": "richtext",
+      "required": true
     },
     "excerpt": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "author": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "readTime": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::category.category"
+      "target": "api::category.category",
+      "inversedBy": "blog_posts"
     },
     "image": {
       "type": "media",
-      "multiple": false
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
     },
     "publishedAt": {
-      "type": "datetime"
+      "type": "datetime",
+      "required": true
     }
   }
-}
+} 
