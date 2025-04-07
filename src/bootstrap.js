@@ -269,48 +269,41 @@ async function main() {
 }
 
 module.exports = async ({ strapi }) => {
-  // Encontra o role público
-  const publicRole = await strapi.query('plugin::users-permissions.role').findOne({
-    where: { type: 'public' }
-  });
+  try {
+    // Encontra o role público
+    const publicRole = await strapi
+      .query('plugin::users-permissions.role')
+      .findOne({ where: { type: 'public' } });
 
-  if (publicRole) {
-    // Define as permissões que queremos habilitar
-    const permissions = {
-      'api::blog-post.blog-post': ['find', 'findOne'],
-      'api::category.category': ['find', 'findOne'],
-      'api::job-position.job-position': ['find', 'findOne'],
-      'api::success-case.success-case': ['find', 'findOne']
-    };
-
-    // Para cada content-type e suas ações
-    for (const [contentType, actions] of Object.entries(permissions)) {
-      for (const action of actions) {
-        // Verifica se a permissão já existe
-        const existingPermission = await strapi.query('plugin::users-permissions.permission').findOne({
-          where: {
-            action: `${contentType}.${action}`,
-            role: publicRole.id
-          }
-        });
-
-        if (!existingPermission) {
-          // Se não existe, cria a permissão
-          await strapi.query('plugin::users-permissions.permission').create({
-            data: {
-              action: `${contentType}.${action}`,
-              role: publicRole.id,
-              enabled: true
-            }
-          });
-        } else if (!existingPermission.enabled) {
-          // Se existe mas não está habilitada, atualiza
-          await strapi.query('plugin::users-permissions.permission').update({
-            where: { id: existingPermission.id },
-            data: { enabled: true }
-          });
-        }
-      }
+    if (!publicRole) {
+      return;
     }
+
+    // Lista de permissões para habilitar
+    const permissions = [
+      'api::blog-post.blog-post.find',
+      'api::blog-post.blog-post.findOne',
+      'api::category.category.find',
+      'api::category.category.findOne',
+      'api::job-position.job-position.find',
+      'api::job-position.job-position.findOne',
+      'api::success-case.success-case.find',
+      'api::success-case.success-case.findOne'
+    ];
+
+    // Habilita cada permissão
+    await Promise.all(
+      permissions.map(permission =>
+        strapi.query('plugin::users-permissions.permission').create({
+          data: {
+            action: permission,
+            role: publicRole.id,
+            enabled: true
+          }
+        })
+      )
+    );
+  } catch (error) {
+    console.error('Erro ao configurar permissões:', error);
   }
 };
