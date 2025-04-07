@@ -1,0 +1,19 @@
+{
+    "contentTypes": [
+      {
+        "name": "blog-posts",
+        "fields": [
+          { "name": "title", "type": "string", "required": true },
+          { "name": "slug", "type": "uid", "targetField": "title", "required": true },
+          { "name": "content", "type": "richtext" },
+          { "name": "excerpt", "type": "text" },
+          { "name": "author", "type": "string" },
+          { "name": "readTime", "type": "string" },
+          { "name": "category", "type": "relation", "relation": "manyToOne", "target": "api::categories.categories" },
+          { "name": "image", "type": "media", "multiple": false, "required": false },
+          { "name": "publishedAt", "type": "datetime" }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,22 @@
+{
+    "contentTypes": [
+      {
+        "name": "job-positions",
+        "fields": [
+          { "name": "title", "type": "string", "required": true },
+          { "name": "slug", "type": "uid", "targetField": "title", "required": true },
+          { "name": "department", "type": "string" },
+          { "name": "location", "type": "string" },
+          { "name": "type", "type": "string" },
+          { "name": "salary", "type": "string" },
+          { "name": "description", "type": "richtext" },
+          { "name": "responsibilities", "type": "richtext" },
+          { "name": "requirements", "type": "richtext" },
+          { "name": "benefits", "type": "richtext" },
+          { "name": "isActive", "type": "boolean" },
+          { "name": "applicationEmail", "type": "email" }
+        ]
+      }
+    ]
+  }
+  
