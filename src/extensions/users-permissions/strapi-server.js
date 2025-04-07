@@ -1,37 +1,33 @@
 'use strict';
 
 module.exports = (plugin) => {
-  // Get current `beforeCreate` function
-  const beforeCreate = plugin.contentTypes['plugin::users-permissions.user'].lifecycles.beforeCreate;
-
-  plugin.contentTypes['plugin::users-permissions.user'].lifecycles.beforeCreate = async (event) => {
-    if (beforeCreate) {
-      await beforeCreate(event);
-    }
+  const sanitizeOutput = (user) => {
+    const {
+      password, resetPasswordToken, confirmationToken, ...sanitizedUser
+    } = user;
+    return sanitizedUser;
   };
 
-  plugin.contentTypes['plugin::users-permissions.permission'].actions = {
-    ...plugin.contentTypes['plugin::users-permissions.permission'].actions,
-    'content-api': {
-      controllers: {
-        'job-position': {
-          find: { enabled: true },
-          findOne: { enabled: true },
-        },
-        'blog-post': {
-          find: { enabled: true },
-          findOne: { enabled: true },
-        },
-        'category': {
-          find: { enabled: true },
-          findOne: { enabled: true },
-        },
-        'success-case': {
-          find: { enabled: true },
-          findOne: { enabled: true },
-        },
-      },
-    },
+  plugin.controllers.user.me = async (ctx) => {
+    if (!ctx.state.user) {
+      return ctx.unauthorized();
+    }
+    const user = await strapi.entityService.findOne(
+      'plugin::users-permissions.user',
+      ctx.state.user.id,
+      { populate: ['role'] }
+    );
+
+    ctx.body = sanitizeOutput(user);
+  };
+
+  plugin.controllers.user.find = async (ctx) => {
+    const users = await strapi.entityService.findMany(
+      'plugin::users-permissions.user',
+      { ...ctx.params, populate: ['role'] }
+    );
+
+    ctx.body = users.map(sanitizeOutput);
   };
 
   return plugin;
