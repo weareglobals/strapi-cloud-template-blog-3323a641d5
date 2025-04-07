@@ -1,0 +1,30 @@
+{
+  "blog-post": {
+    "find": true,
+    "findOne": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "category": {
+    "find": true,
+    "findOne": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "success-case": {
+    "find": true,
+    "findOne": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "job-position": {
+    "find": true,
+    "findOne": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  }
+} 

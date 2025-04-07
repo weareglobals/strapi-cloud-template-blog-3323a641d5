@@ -1,0 +1,44 @@
+{
+  "roles": {
+    "public": {
+      "permissions": {
+        "blog-post": {
+          "find": true,
+          "findOne": true
+        },
+        "category": {
+          "find": true,
+          "findOne": true
+        },
+        "success-case": {
+          "find": true,
+          "findOne": true
+        },
+        "job-position": {
+          "find": true,
+          "findOne": true
+        }
+      }
+    },
+    "authenticated": {
+      "permissions": {
+        "blog-post": {
+          "find": true,
+          "findOne": true
+        },
+        "category": {
+          "find": true,
+          "findOne": true
+        },
+        "success-case": {
+          "find": true,
+          "findOne": true
+        },
+        "job-position": {
+          "find": true,
+          "findOne": true
+        }
+      }
+    }
+  }
+} 
