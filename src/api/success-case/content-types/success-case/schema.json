@@ -53,13 +53,17 @@
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "gallery": {
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "category": {
       "type": "string",
@@ -67,12 +71,16 @@
     },
     "language": {
       "type": "enumeration",
-      "enum": ["portuguese", "english", "spanish"],
+      "enum": [
+        "portuguese",
+        "english",
+        "spanish"
+      ],
       "required": true,
       "default": "portuguese"
     },
     "stacks": {
-      "type": "text",
+      "type": "string",
       "required": true,
       "description": "Technologies used in the project (separated by semicolon)"
     }
