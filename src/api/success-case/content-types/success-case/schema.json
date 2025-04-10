@@ -83,6 +83,11 @@
       "type": "string",
       "required": true,
       "description": "Technologies used in the project (separated by semicolon)"
+    },
+    "industry": {
+      "type": "string",
+      "required": true,
+      "description": "Industry sector of the client"
     }
   }
 } 
